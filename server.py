@@ -10,7 +10,7 @@ keyCodeNum = {87: 'w', 65: 'a', 83: 's', 68: 'd'}
 
 global pub
 global rate
-def talkera():
+def rosInitial(): #initialize ros node
 	global pub
 	global rate
 	pub = rospy.Publisher('chatter', String, queue_size = 10)
@@ -24,21 +24,21 @@ def talker(pressed_key):
 		passed = "Key pressed: " + str(pressed_key)
 		#pub.publish(hello_str)
 		pub.publish(passed)
-		a()
+		keyListening()
 		rate.sleep()
 
 def on_press(key):
 	pressed_key = key.char    #get the pressed key int value
 	talker(pressed_key)
     
-def a():
+def keyListening():
 	with Listener(on_press=on_press) as listener: 
     		listener.join()
 
 if __name__ == '__main__':
 	try:
-		talkera()
-		a()
+		rosInitial()
+		keyListening()
 	except rospy.ROSInterruptException:
 		print("error")
 		pass
